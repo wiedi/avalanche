@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>{{ title }}</title>
+	<style type="text/css" media="print">
+	      {{ print_css }}
+	</style>
+</head>
+<body>
+<div class="intro">
+{{ intro }}
+</div>
+
+{% if toc_enabled %}
+<div class="toc">
+<strong class="pseudo-h1">Contents</strong>
+<!--toc-->
+</div>
+{% endif %}
+
+
+<div class="content">
+<div class="page-count-start">&nbsp;</div>
+{{ content }}
+</div>
+</body>
+</html>

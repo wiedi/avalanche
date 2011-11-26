@@ -1,0 +1,354 @@
+html {
+	margin: 0;
+
+	font: 10pt/1.28 "Calluna", serif;
+	
+}
+
+
+@page {	
+	/* size: A4; */
+	/* U.S. Trade: */
+	size: 20.955cm 27.31cm;
+	
+	margin-top: 2cm;
+	margin-bottom: 2.5cm;
+
+	
+	-border: 1px solid red;
+	
+	@footnotes {
+		border-top: solid black thin;
+		padding-top: 8pt;
+	}
+}
+
+@page :left {
+	margin-left: 2.3cm;
+	margin-right: 3cm;
+	
+	@top-left {
+		font-family: "Calluna";
+		text-align: left;
+		font-size: 9pt;
+		vertical-align: bottom;
+		
+		margin-bottom: 1.6em;
+		padding-bottom: 0.2em;
+		border-bottom: thin solid black;
+		content: string(header, last);
+	}
+	@bottom-left {
+		font-family: "Calluna";
+		content: counter(page);
+		padding-top: 2em;
+		vertical-align: top;
+		text-align: left;
+	}
+
+}
+
+@page :right {
+	margin-left: 3cm;
+	margin-right: 2.3cm;
+	
+	@top-right {
+		font-family: "Calluna";
+		text-align: right;
+		font-size: 9pt;
+		vertical-align: bottom;
+		
+		margin-bottom: 1.6em;
+		padding-bottom: 0.2em;
+		border-bottom: thin solid black;
+		content: string(header, last);
+	}
+
+	@bottom-right {
+		font-family: "Calluna";
+		content: counter(page);
+		padding-top: 2em;
+		vertical-align: top;
+		text-align: right;
+	}
+}
+
+@page blank :left {
+  @top-right { content: normal }
+  @bottom-right { content: normal }
+  @top-left { content: normal }
+  @bottom-left { content: normal }
+}
+
+@page blank :right {
+  @top-right { content: normal }
+  @bottom-right { content: normal }
+  @top-left { content: normal }
+  @bottom-left { content: normal }
+}
+
+@page toc :left {
+	@bottom-left {
+		content: counter(page, upper-roman);	
+	}
+}
+
+@page toc :right {
+	@bottom-right {
+		content: counter(page, upper-roman);	
+	}
+}
+
+.intro, .blank {
+	page: blank;
+}
+
+.toc {
+	page: toc;
+}
+
+body {
+	margin: 0 0 0 0;
+}
+
+title {
+	string-set: title content();
+}
+
+h1, .pseudo-h1 {
+	font-family: "Calluna";
+	string-set: header content();
+	display: block;
+	counter-reset: footnote;
+	page-break-before: always;
+	font-size: 16pt;
+	margin-bottom: 2em;
+}
+
+h2, .pseudo-h2 {
+	font-size: 14pt;
+}
+
+h3 {
+	font-size: 11pt;
+}
+
+h4 {
+	font-size: 9pt;
+}
+
+hr {
+	page-break-after: always;
+	height: 0;
+	size: 0;
+	border: 0;
+}
+
+a { text-decoration: none; color: black }
+
+/* cross-references */
+a.pageref::after { content: " auf Seite " target-counter(attr(href), page); }
+a.chapref::before { content: " Chapter " target-counter(attr(href), chapter) ", "; }
+a.figureref { content: " Abbildung " target-counter(attr(href), figures); }
+a.tableref { content: " Tabelle " target-counter(attr(href), tables); }
+a.listingref { content: " Listing " target-counter(attr(href), listings); }
+a.bibref { content: target-content(attr(href)); }
+a[href^="http:"]::after { content: ": " attr(href); }
+
+/* footnotes */
+.fn {
+	display: none;                   /* default rule */
+	display: prince-footnote;        /* prince-specific rules */
+	position: footnote;
+/* 	footnote-style-position: inside; */
+	margin-left: 1.4em;
+	padding-left: 0.5em;
+	text-indent: 0;
+	counter-increment: footnote;
+	line-height: 1.4;
+}
+
+
+q {
+	display: block;
+	padding: 1em 2em;
+	margin: 4em 0;
+}
+
+q::before {
+	content: "\201C";
+	font-size: 16pt;
+	font-family: 'Times';
+	color: #555;
+	margin: 0.2em;
+}
+
+q::after {
+	content: "\201D";
+	font-size: 16pt;
+	font-family: 'Times';
+	color: #555;
+	margin: 0.2em;
+}
+
+p {
+	/* http://tug.ctan.org/tex-archive/fonts/lm/fonts/opentype/public/lm/ */
+	font: 10pt/1.28 "Latin Modern Roman", serif;
+	display: block;
+	margin-bottom: 2em;
+	text-align: justify;
+	page-break-inside: avoid;
+}
+
+ul {
+	font: 10pt/1.28 "Latin Modern Roman", serif;	
+}
+
+em, strong {
+	font: 10pt/1.28 "Calluna", serif;
+}
+
+
+pre {
+	margin: 0.5cm 0;
+	font: 0.7em/1.28 'Monaco';
+	letter-spacing: 0.06em;
+}
+
+.page-count-start {
+	counter-reset: page 1;
+}
+
+.page-count-start + h1 {
+	page-break-before: avoid;
+}
+
+table {
+	border-collapse: collapse;
+	border: 1pt solid #000;
+	margin: 0.5cm 0;
+}
+
+td, th {
+	border: 1pt solid #000;
+	padding: 0.1cm 0.2cm;
+}
+
+ul {
+	margin: 0.2cm 1.4em;
+}
+
+/* TOC */
+div.toc {
+	string-set: header "Contents";
+}
+
+ul.toc, ul.toc ul { 
+  list-style-type: none; 
+  margin: 0; padding: 0;
+}
+ul.toc ul {
+	margin-top: 0.2em;
+	margin-left: 1.7em;
+	font-weight: normal;
+}
+
+ul.toc > li {
+	font-weight: bold;
+	margin-bottom: 0.5em;
+}
+
+ul.toc a::after {
+	content: leader(' . ') target-counter(attr(href), page);
+	font-style: normal;
+	font-weight: normal;
+}
+ul.toc > li.frontmatter a::after {
+  content: leader('.') target-counter(attr(href), page, lower-roman);
+  font-style: normal;
+}
+ul.toc > li.endmatter a::after {
+  content: leader('.') target-counter(attr(href), page);
+  font-style: normal;
+}
+ul.toc > li.chapter::before {
+  content: "Chapter " counter(toc-chapter, decimal);
+  display: block;
+  margin: 1em 0 0.1em -2.5cm;
+  font-weight: normal;
+  counter-increment: toc-chapter;
+  page-break-after: avoid;
+}
+
+/* bib kram */
+
+
+.bib dt {
+	float: left;
+	width: 4em;
+	padding-right: 1em;
+	text-align: right;
+}
+
+.bib_author {
+
+	font-family: "Calluna";
+	font-variant: small-caps;
+}
+
+.bib_author:after {
+	content: ": ";
+}
+
+.bib a[href^="http:"]::after { content: "" }
+
+
+.bib dd {
+	font-family: "Latin Modern Roman";
+	padding-left: 4em;
+}
+
+/* title page */
+.intro {
+	text-align: center;
+}
+
+.intro .title {
+	display: block;
+	font: 22pt "Latin Modern Roman";
+	margin: 0.5em;
+	margin-top: 4em;
+	margin-bottom: 1em;
+	text-align: center;
+}
+
+.intro .date {
+	text-align: center;
+	margin-bottom: 12em;
+	display: block;
+	font-size: 11pt;
+}
+
+.intro > .vcard {
+	font-size: 11pt;
+	margin: 4em auto;
+	width: 17em;
+	text-align: left;
+	padding-left: 0.5em;
+	border-left: 0.2em solid #5c2d91;
+}
+
+#fh-title {
+	background: url(http://up.frubar.net/1234/fh.svg) no-repeat;
+	width: 80px;
+	height: 90px;
+	position: absolute;
+	left: 2em;
+	top: 23em;
+
+}
+
+.intro abbr {
+	text-decoration: none;
+	border: none;
+}
